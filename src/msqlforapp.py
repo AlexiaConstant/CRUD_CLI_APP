@@ -128,8 +128,8 @@ def delete_drink(id):
             print("MySQL connection is closed")
 
 
-def print_people():
-    db = mysqlconnect()
+def print_people(database="test"):
+    db = mysqlconnect(database=database)
     cursor = db.cursor()
     sql_faves = "SELECT people.id, people.first_name, people.last_name, drinks.drink_name from people LEFT JOIN drinks ON people.drink_id = drinks.id"
     cursor.execute(sql_faves)
@@ -142,10 +142,10 @@ def print_people():
     cursor.close
     db.close()
     print("MySQL connection is closed")
+    return results
 
-
-def print_drinks():
-    db = mysqlconnect()
+def print_drinks(database="test"):
+    db = mysqlconnect(database=database)
     cursor = db.cursor()
     cursor.execute("SELECT * FROM drinks")
     results = cursor.fetchall()
@@ -156,15 +156,14 @@ def print_drinks():
     cursor.close
     db.close()
     print("MySQL connection is closed")
+    return results
 
 
-def insertVarintodrinks(my_vars):
-    db = mysqlconnect()
+def insertVarintodrinks(my_vars, database="app"):
+    db = mysqlconnect(database=database)
     cursor = db.cursor()
     try:
         query = "INSERT INTO drinks (drink_name,price) VALUES (%s,%s)"
-        # query_vals = [("Hot Coco","1.59"), ("Fanta", "2.00"),("Martini","5.00"),
-        #        ("Hot Toddy","4.50")]
         cursor.executemany(query, my_vars)
         db.commit()
         print(cursor.rowcount, "record inseted")

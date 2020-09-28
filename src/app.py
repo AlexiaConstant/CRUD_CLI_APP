@@ -1,5 +1,9 @@
 import os
-
+import tkinter  as tk 
+from tkinter import *
+import mysql.connector as connector
+import mysql.connector.errors as errors
+from src.guites import prettyprintpeople, prettyprintdrinks,prettyprintpref,create_person,create_drinks
 from src.msqlforapp import (
     create_table_people,
     create_table_drinks,
@@ -32,54 +36,53 @@ Please choose an option:
 exit_option = 0
 # prefs = get_data(Strategy.preferences)
 
+def app():
+    while True:
 
-while True:
+        option = None
 
-    option = None
+        try:
 
-    try:
+            option = int(input(menu))
+        except ValueError:
 
-        option = int(input(menu))
-    except ValueError:
+            print("Please enter a number")
 
-        print("Please enter a number")
+        if option == exit_option:
 
-    if option == exit_option:
+            break
+        elif option == 1:
+            prettyprintpeople()
 
-        break
-    elif option == 1:
-        print_people()
+        elif option == 2:
+            prettyprintdrinks()
 
-    elif option == 2:
-        print_drinks()
+        elif option == 3:
+            prettyprintpref()
 
-    elif option == 3:
-        joining_drink_people()
+        elif option == 4:
+            create_person()
+            
+        elif option == 5:
+            create_drinks()
 
-    elif option == 4:
-        first_name = input("Please input first name:")
-        last_name = input("Please input last name:")
-        insertVarintopeople([(first_name, last_name)])
 
-    elif option == 5:
-        drink_name = input("Please input drink name:")
-        price = input("Please input drink price:")
-        insertVarintodrinks([(drink_name, price)])
+        elif option == 6:
+            print_people()
+            people_ques = input("Please input the ID of the Person you would like to delete:")
+            delete_people(people_ques)
 
-    elif option == 6:
-        print_people()
-        people_ques = input("Please input the ID of the Person you would like to delete:")
-        delete_people(people_ques)
+        elif option == 7:
+            print_drinks()
+            drink_ques = input("Please enter the ID of the drink you would like to delete:")
+            delete_drink(drink_ques)
 
-    elif option == 7:
-        print_drinks()
-        drink_ques = input("Please enter the ID of the drink you would like to delete:")
-        delete_drink(drink_ques)
+        elif option == 8:
+            print_people()
+            person_id = input("Please input Person ID")
+            print_drinks()
+            drink_id = input("Please input Drink ID")
+            update_favorite_drink(person_id,drink_id)
 
-    elif option == 8:
-        print_people()
-        person_id = input("Please input Person ID")
-        print_drinks()
-        drink_id = input("Please input Drink ID")
-        update_favorite_drink(person_id,drink_id)
-
+if __name__ == "__main__":
+    app()
